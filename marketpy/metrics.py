@@ -43,10 +43,5 @@ def percentage_over_zero(y_true, y_pred, percent = 80):
     y_pred -- numpy array of predicted returns
     percent -- percent of highest anserws taken into account
     """
-    thresholds = np.unique(y_pred)
-    over_zero = []
-    percent = []
-    for thresh in thresholds:
-        over_zero.append(np.mean(y_true[y_pred >= thresh] > 0))
-        percent.append(sum(y_pred >= thresh)/len(y_pred))
-    return auc(percent, over_zero)
+    y_choosen = y_true[y_pred > np.percentile(y_pred,percent)]
+    return sum(y_choosen > 0) / len(y_choosen)
