@@ -23,7 +23,7 @@ def train_test_split(X, y, test_size = 0.3):
     return X_train, X_test, y_train, y_test
 
 
-def prepare_data_from_stooq(df, return_days = 5):
+def prepare_data_from_stooq(df, to_prediction = False, return_days = 5):
     """
     Prepares data for X, y format from pandas dataframe
     downloaded from stooq. Y is created as closing price in return_days
@@ -37,8 +37,9 @@ def prepare_data_from_stooq(df, return_days = 5):
     else:
         df.drop('Data', inplace=True, axis = 1)
     y = df['Zamkniecie'].shift(-return_days) - df['Otwarcie']
-    df = df.iloc[:-return_days,:]
-    y = y[:-return_days]
+    if not to_prediction:
+        df = df.iloc[:-return_days,:]
+        y = y[:-return_days]
     return df.values, y
 
 
