@@ -42,9 +42,9 @@ def prepare_data_from_stooq(df, to_prediction = False, return_days = 5):
     return_days -- number of day frame in which to calculate y.
     """
     if 'Wolumen' in df.columns:
-        df.drop(['Data', 'Wolumen', 'LOP'], inplace = True, axis=1)
+        df = df.drop(['Data', 'Wolumen', 'LOP'], axis=1)
     else:
-        df.drop('Data', inplace=True, axis = 1)
+        df = df.drop('Data', axis = 1)
     y = df['Zamkniecie'].shift(-return_days) - df['Otwarcie']
     if not to_prediction:
         df = df.iloc[:-return_days,:]
