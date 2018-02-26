@@ -7,7 +7,7 @@ def load_data(ticker):
     """
 
     """
-    path_to_data = 'https://stooq.pl/q/d/l/?s=^{ticker}&i=d'.format(
+    path_to_data = 'https://stooq.pl/q/d/l/?s={ticker}&i=d'.format(
         ticker=ticker)
     return pd.read_csv(path_to_data)
 
