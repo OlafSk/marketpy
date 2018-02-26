@@ -3,6 +3,15 @@ import numpy as np
 import talib
 
 
+def load_data(ticker):
+    """
+
+    """
+    path_to_data = 'https://stooq.pl/q/d/l/?s=^{ticker}&i=d'.format(
+        ticker=ticker)
+    return pd.read_csv(path_to_data)
+
+
 def train_test_split(X, y, test_size = 0.3):
     """
     Returns data split in train and test part.
