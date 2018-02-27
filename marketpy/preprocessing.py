@@ -80,9 +80,9 @@ def add_technical_features(X, y, return_array = False):
     y = y[~np.isnan(X).any(axis = 1)]
     X = X[~np.isnan(X).any(axis = 1)]
     if return_array:
-        return X
+        return X, y
     else:
         colnames = ['open','high','low','close','stoch_k', 'stoch_d', 'SMA_5', 'mom', 'roc', 'willr', 'disp_5','disp_10','rsi','cci']
-        return pd.DataFrame(X, columns=colnames)
+        return pd.DataFrame(X, columns=colnames), y
 
     return X, y
