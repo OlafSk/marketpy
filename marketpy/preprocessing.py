@@ -58,10 +58,10 @@ def add_technical_features(X, y, return_array = False):
     "https://arxiv.org/pdf/1706.00948.pdf" using library talib.
     Keyword arguments:
     X -- numpy array or dataframe contaning predictors where cols:
-        #0 - open
-        #1 - High
-        #2 - Low
-        #3 - Close
+    #0 - open
+    #1 - High
+    #2 - Low
+    #3 - Close
     y -- vector of returns.
     """
     k, dfast = talib.STOCH(X[:,1],X[:,2],X[:,3])
@@ -86,3 +86,27 @@ def add_technical_features(X, y, return_array = False):
         return pd.DataFrame(X, columns=colnames), y
 
     return X, y
+
+
+def add_candle_patterns(X, y, return_array = False):
+    """
+    Adds candle patterns used in technical analysis.
+    Keyword arguments:
+    X - dataframe contaning predictors where cols:
+    #0 - open
+    #1 - High
+    #2 - Low
+    #3 - Close
+    y - vector of returns.
+    """
+    data = {
+            "open" : X.iloc[:,0],
+            "high" : X.iloc[:,1],
+            "low" : X.iloc[:,2],
+            "close" : X.iloc[:,3]
+    }
+    for func in talib.__dict__.keys():
+        if func[:3] == "CDL":
+            X[func] = talib.__dict__[func](**data)
+
+    return X
