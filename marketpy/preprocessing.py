@@ -77,8 +77,8 @@ def add_technical_features(X, y, return_array = False):
     X = np.hstack((X, talib.RSI(X[:,3]).reshape(-1,1)))
     X = np.hstack((X, talib.CCI(X[:,1], X[:,2], X[:,3],
                                         timeperiod=14).reshape(-1,1)))
-    X = X[~np.isnan(X).any(axis = 1)]
     y = y[~np.isnan(X).any(axis = 1)]
+    X = X[~np.isnan(X).any(axis = 1)]
     if return_array:
         return X
     else:
