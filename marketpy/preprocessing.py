@@ -52,7 +52,7 @@ def prepare_data_from_stooq(df, to_prediction = False, return_days = 5):
     return df.values, y
 
 
-def add_technical_features(X, y):
+def add_technical_features(X, y, return_array = False):
     """
     Adds basic technical features used in paper:
     "https://arxiv.org/pdf/1706.00948.pdf" using library talib.
@@ -78,5 +78,11 @@ def add_technical_features(X, y):
     X = np.hstack((X, talib.CCI(X[:,1], X[:,2], X[:,3],
                                         timeperiod=14).reshape(-1,1)))
     X = X[~np.isnan(X).any(axis = 1)]
-    y = y[-X.shape[0]:]
+    y = y[~np.isnan(X).any(axis = 1)]
+    if return_array:
+        return X
+    else:
+        colnames = ['open','high','low','close','stoch_k', 'stoch_d', 'SMA_5', 'mom', 'roc', 'willr', 'disp_5','disp_10','rsi','cci']
+        return pd.DataFrame(X, columns=colnames)
+
     return X, y
