@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='marketpy',
-      version='0.1',
+      version='0.1.1',
       description='Python library for financial modeling',
       url='http://github.com/storborg/funniest',
       author='Olaf Skrabacz',
