@@ -48,7 +48,7 @@ def prepare_data_from_stooq(df, to_prediction = False, return_days = 5):
     y = df['Zamkniecie'].shift(-return_days) - df['Otwarcie']
     if not to_prediction:
         df = df.iloc[:-return_days,:]
-        y = y[:-return_days]
+        y = y[:-return_days]/df['Otwarcie']
     return df.values, y
 
 
@@ -100,13 +100,36 @@ def add_candle_patterns(X, y, return_array = False):
     y - vector of returns.
     """
     data = {
-            "open" : X.iloc[:,0],
-            "high" : X.iloc[:,1],
-            "low" : X.iloc[:,2],
-            "close" : X.iloc[:,3]
+            "open" : X.iloc[:,0].values,
+            "high" : X.iloc[:,1].values,
+            "low" : X.iloc[:,2].values,
+            "close" : X.iloc[:,3].values
     }
     for func in talib.__dict__.keys():
         if func[:3] == "CDL":
             X[func] = talib.__dict__[func](**data)
 
+    return X
+
+def add_all_technical_indicators(X, y):
+    """
+    Adds candle patterns used in technical analysis.
+    Keyword arguments:
+    X - dataframe contaning predictors where cols:
+    #0 - open
+    #1 - High
+    #2 - Low
+    #3 - Close
+    y - vector of returns.
+    """
+    data = {
+            "open" : X.iloc[:,0].values,
+            "high" : X.iloc[:,1].values,
+            "low" : X.iloc[:,2].values,
+            "close" : X.iloc[:,3].values
+    }
+    for func in talib.__dict__.keys():
+        if func.isupper():
+            if func[:3] != "CDL":
+                X[func] = talib.__dict__[func](**data)
     return X
