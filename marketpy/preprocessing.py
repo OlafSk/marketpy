@@ -133,3 +133,17 @@ def add_all_technical_indicators(X, y):
             if func[:3] != "CDL":
                 X[func] = talib.__dict__[func](**data)
     return X
+
+def prepare_data_for_lstm(X,y, time_step = 20, normalize = True):
+    """
+    Prepares data for learning RNN
+    """
+    V = np.empty([X.shape[0] - time_step, time_step, X.shape[1]])
+    for i in range(time_step, X.shape[0]):
+        time_data = X[i - time_step:i, :]
+        if normalize:
+            time_data = (time_data - np.mean(time_data, axis = 1, keepdims = True))/ np.std(time_data,axis = 1, keepdims = True)
+        V[i - time_step, :, :] = time_data
+
+    y = y[time_step:]
+    return V, y
