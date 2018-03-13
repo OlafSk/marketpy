@@ -62,9 +62,3 @@ model.fit(Xi, yi, batch_size=32, epochs=15)
 Xrp, yrp = yield_rolling_prediction(X, y, 30)
 
 preds = model.predict(Xrp)
-
-import matplotlib.pyplot as plt
-
-f, ax = plt.subplots(figsize=(12, 8))
-ax.plot(yrp, c='blue')
-ax.plot(preds, c='red')
